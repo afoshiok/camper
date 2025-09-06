@@ -4,11 +4,14 @@
     "dev": "bun run --hot src/index.ts"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^6.15.0",
     "@prisma/client": "^6.15.0",
-    "hono": "^4.9.6"
+    "hono": "^4.9.6",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/pg": "^8.15.5",
     "prisma": "^6.15.0"
   }
 }
