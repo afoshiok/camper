@@ -13,3 +13,77 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model MemberTypes {
+  id  Int @id @default(autoincrement())
+  type_name String  @db.Char(20)
+  members Member[]
+}
+
+model CampaignTypes {
+  id  Int @id @default(autoincrement())
+  type_name String  @db.Char(20)
+  campaigns Campaign[]
+}
+
+model VisitStatus {
+  id  Int @id @default(autoincrement())
+  status_name String  @db.Char(25)
+  Visits Visit[]
+}
+
+model Visit {
+  id  Int @id @default(autoincrement())
+  door_id  Int
+  volunteer_id  Int
+  campaign_id String  @db.Uuid
+  visit_status  Int 
+  VisitStatusId VisitStatus @relation(fields: [visit_status], references: [id])
+  CampaignId  Campaign  @relation(fields: [campaign_id], references: [id])
+  VolunteerId CampaignMember  @relation(fields: [volunteer_id], references: [id])
+  DoorId  Door  @relation(fields: [door_id], references: [id])
+}
+
+model Member {
+  id  Int @id @default(autoincrement())
+  first_name  String @db.Char(20)
+  last_name String @db.Char(20)
+  member_type Int
+  MemberTypeId MemberTypes  @relation(fields: [member_type], references: [id])
+  Campaigns CampaignMember[]
+}
+
+model Campaign {
+  id  String  @id @db.Uuid
+  name  String  @db.VarChar(100)
+  description String  @db.VarChar()
+  city  String?  @db.Char(50)
+  state String  @db.Char(50)
+  country String  @db.Char(50)
+  zipcode String?  @db.Char(20)
+  campaign_type Int
+  CampaignTypeId  CampaignTypes @relation(fields: [campaign_type], references: [id])
+  Members CampaignMember[]
+  Vists Visit[]
+}
+
+model CampaignMember {
+  id  Int  @id @default(autoincrement())
+  campaign_id String @db.Uuid
+  member_id  Int
+  CampaignId Campaign  @relation(fields: [campaign_id], references: [id])
+  MemberId  Member  @relation(fields: [member_id], references: [id])
+  Visits Visit[]
+}
+
+model Door {
+  id  Int @id @default(autoincrement())
+  first_name  String  @db.Char(20)
+  last_name String  @db.Char(20)
+  address1  String  @db.VarChar(50)
+  address2  String  @db.VarChar(50)
+  city  String  @db.Char(20)
+  state String  @db.Char(20)
+  country String  @db.Char(40)
+  Visits Visit[]
+}
