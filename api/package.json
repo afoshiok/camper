@@ -6,6 +6,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^6.15.0",
     "@prisma/client": "^6.15.0",
+    "bcrypt": "^6.0.0",
     "hono": "^4.9.6",
     "pg": "^8.16.3"
   },
