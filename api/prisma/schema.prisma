@@ -18,19 +18,25 @@ datasource db {
 
 model MemberTypes {
   id  Int @id @default(autoincrement())
-  type_name String  @db.Char(20)
+  type_name String
   members Member[]
 }
 
 model CampaignTypes {
   id  Int @id @default(autoincrement())
-  type_name String  @db.Char(20)
+  type_name String
   campaigns Campaign[]
+}
+
+model CampaignStatus {
+  id Int @id @default(autoincrement())
+  status_name String
+  Campaigns Campaign[]
 }
 
 model VisitStatus {
   id  Int @id @default(autoincrement())
-  status_name String  @db.Char(25)
+  status_name String
   Visits Visit[]
 }
 
@@ -48,8 +54,9 @@ model Visit {
 
 model Member {
   id  Int @id @default(autoincrement())
-  first_name  String @db.Char(20)
-  last_name String @db.Char(20)
+  first_name  String
+  last_name String
+  email String
   member_type Int
   MemberTypeId MemberTypes  @relation(fields: [member_type], references: [id])
   Campaigns CampaignMember[]
@@ -66,7 +73,9 @@ model Campaign {
   campaign_type Int
   date_created DateTime
   end_date  DateTime
+  campaign_status Int
   CampaignTypeId  CampaignTypes @relation(fields: [campaign_type], references: [id])
+  CampaignStatusId CampaignStatus @relation(fields: [campaign_status], references: [id])
   Members CampaignMember[]
   Vists Visit[]
 }
